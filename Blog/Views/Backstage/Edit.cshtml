@@ -1,0 +1,19 @@
+﻿@model Blog.Models.Posts
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form action="/Backstage/Edit" method="post">
+    <input type="hidden" name="PostsId" id="PostsId" value=@Model.PostsId>
+    标题
+    <input type="text" name="Title" id="TItle" value=@Model.Title><br/>
+    简介
+    <textarea name="Outline" id="Outline">@Model.Outline</textarea><br/>
+    文章
+    <textarea name="Content" id="Content">@Model.Content</textarea><br/>
+    点击数
+    <input type="hidden" name="Click" id="Click" value=@Model.Click>@Model.Click<br/>
+    <input type="submit" value="修改"/>
+</form>

@@ -1,0 +1,21 @@
+﻿@model IEnumerable<Blog.Models.Tag>
+@{
+    ViewBag.Title = "Add";
+}
+
+<h2>Add</h2>
+<form action="/Backstage/Add" method="post">
+    <label for="Title">标题</label>
+    <input type="text" name="Title" id="Title" value="" /><br />
+    <label for="Outline">简介</label>
+    <textarea name="Outline" id="Outline"></textarea><br />
+    <label for="Content">正文</label>
+    <textarea name="Content" id="Content"></textarea><br />
+    <label for="Tag">分类</label><br />
+    @foreach (var tag in Model)
+    {
+        <input type="checkbox" name="Tag" id="Tag" value=@tag.Name>@tag.Name<br />
+    }<br/>
+    <input type="submit" value="确认新增">
+</form>
+

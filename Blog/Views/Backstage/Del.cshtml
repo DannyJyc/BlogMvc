@@ -1,0 +1,14 @@
+﻿@model Blog.Models.Posts
+@{
+    ViewBag.Title = "Del";
+}
+
+<h2>Del</h2>
+<form action="/Backstage/Del" method="post">
+    <input type="hidden" name="PostsId" id="PostsId" value=@Model.PostsId>
+    <h1>标题：@Model.Title</h1>
+    <h2>简介：@Model.Outline</h2>
+    <h3>文章：@Model.Content</h3>
+    <h4>创建时间：@Model.CreateDate</h4>
+    <input type="submit" value="确认删除" />
+</form>

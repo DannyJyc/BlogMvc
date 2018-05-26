@@ -1,0 +1,33 @@
+﻿@using Blog.DAL
+@model IEnumerable<Blog.Models.Posts>
+@{
+    ViewBag.Title = "Index";
+}
+<a href="/Backstage/Add">新增</a>
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>CreateDate</th>
+        <th>Click</th>
+        <th>Tag</th>
+        <th>Operate</th>
+    </tr>
+
+    @foreach (var posts in Model)
+    {
+        <tr>
+            <td>@posts.Title</td>
+            <td>@posts.CreateDate</td>
+            <td>@posts.Click</td>
+            <td>
+                @foreach (var tagname in GetValue.Tag(posts.PostsId))
+                {
+                    @tagname.Name
+                }
+            </td>
+            <td><a href="/Backstage/Edit/@posts.PostsId">编辑</a><a href="/Backstage/Del/@posts.PostsId">删除</a></td>
+        </tr>
+    }
+
+</table>
+
