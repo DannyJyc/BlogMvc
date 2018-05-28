@@ -14,7 +14,11 @@ namespace Blog.Controllers
         BlogContext context = new BlogContext();
         public ActionResult Index()
         {
-                int id = Convert.ToInt16(Session["UserId"]);
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
+            int id = Convert.ToInt16(Session["UserId"]);
             var PostsList = from po in context.Postses
                             where po.UserId == id
                             select po;
@@ -39,6 +43,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Add(Posts n)
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             string Tag;
             if (Request["Tag"] == ""||Request["Tag"]==null)
             {
@@ -83,6 +91,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult TagAdd(Tag n)
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             var tag = new Tag();
             tag.Name = n.Name;
             context.Tags.Add(tag);
@@ -106,7 +118,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Edit(Posts n)
         {
-
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             int id = n.PostsId;
             var posts = context.Postses.SingleOrDefault(p => p.PostsId == id);
             posts.Title = n.Title;
@@ -130,6 +145,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Del()
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             int id = Convert.ToInt16(Request["PostsId"]);
             var del = context.Postses.Where(p => p.PostsId == id).FirstOrDefault();
             context.Postses.Remove(del);

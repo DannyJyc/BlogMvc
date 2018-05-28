@@ -46,6 +46,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Index()
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             string search = Request["Search"];
             var list = from tag in context.Tags
                        select tag;
@@ -68,7 +72,10 @@ namespace Blog.Controllers
 
         public ActionResult About()
         {
-
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Home/Index");
+            }
             var newsposts = from po in context.Postses
                             orderby po.CreateDate descending
                             select po;
