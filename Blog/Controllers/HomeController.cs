@@ -10,13 +10,13 @@ namespace Blog.Controllers
         BlogContext context = new BlogContext();
         // GET: Home
         [HttpGet]
-        public ActionResult Index(int? id)
+        public ActionResult Index(string t)
         {
             var postList = from p in context.Postses
                            select p;
             // jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？
-            var tagList = from t in context.Tags
-                select t;
+            var tagList = from ta in context.Tags
+                select ta;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var clickList = from c in context.Postses
                             orderby c.Click descending
@@ -25,18 +25,18 @@ namespace Blog.Controllers
             var bydatePosts = from b in context.Postses
                               orderby b.CreateDate descending
                               select b;
-            if (id != null)
+            if (t != null)
             {
-                var tagname = (from tag in context.Tags
-                    where tag.TagId == id
-                    select tag).SingleOrDefault();
+                //var tagname = (from tag in context.Tags
+                //    where tag.TagId == id
+                //    select tag).SingleOrDefault();
                 postList = from p in context.Postses
                            from ta in p.Tags
-                           where ta.Name == tagname.Name
+                           where ta.Name == t
                            select p;
             }
 
-            ViewBag.tag = tagList.Select(t=>t.Name).Distinct().Take(20).ToList();
+            ViewBag.tag = tagList.Select(p=>p.Name).Distinct().Take(20).ToList();
             ViewBag.sellist = clickList.Take(6).ToList();
             ViewBag.newsposts = bydatePosts.Take(6).ToList();
 
@@ -72,7 +72,7 @@ namespace Blog.Controllers
             var newsposts = from po in context.Postses
                             orderby po.CreateDate descending
                             select po;
-            ViewBag.newsposts = newsposts.ToList();
+            ViewBag.newsposts = newsposts.Take(6).ToList();
             return View();
         }
 
@@ -98,9 +98,9 @@ namespace Blog.Controllers
                         where r.PostsId == id && r.SecondReply == 0
                         select r;
 
-            ViewBag.tag = tagList.ToList();
-            ViewBag.sellist = clickList.ToList();
-            ViewBag.newsposts = bydatePosts.ToList();
+            ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
+            ViewBag.sellist = clickList.Take(6).ToList();
+            ViewBag.newsposts = bydatePosts.Take(6).ToList();
             ViewBag.reply = reply.ToList();
             var postList = from p in context.Postses
                            where p.PostsId == id
@@ -120,13 +120,17 @@ namespace Blog.Controllers
             var newsposts = from po in context.Postses
                             orderby po.CreateDate descending
                             select po;
-            ViewBag.newsposts = newsposts.ToList();
+            ViewBag.newsposts = newsposts.Take(6).ToList();
             return View();
         }
 
         [HttpPost]
         public ActionResult Contact(Message n)
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Users/Login");
+            }
             var message = new Message
             {
                 Name = n.Name,
@@ -141,6 +145,10 @@ namespace Blog.Controllers
         [HttpPost]
         public ActionResult Single(Reply n, int id)
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Users/Login");
+            }
             var reply = new Reply
             {
                 Name = n.Name,

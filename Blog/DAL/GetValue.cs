@@ -28,12 +28,38 @@ namespace Blog.DAL
             return TagName;
         }
 
+        public static string UserIdName(int id)
+        {
+            var list = (from user in context.Users
+                where user.UserId == id
+                select user).SingleOrDefault();
+            return list.Name;
+        }
+
         public static int TagNameId(string Name)
         {
             var list = from tag in context.Tags
                 where tag.Name == Name
                 select tag;
             return list.First().TagId;
+        }
+
+        public static bool IfTag(int id,string tag)
+        {
+            bool temp = false;
+            var posts = from po in context.Postses
+                from ta in po.Tags
+                where po.PostsId == id
+                select ta;
+            foreach (var tagName in posts.ToList())
+            {
+                if (tagName.Name == tag)
+                {
+                    temp = true;
+                    break;
+                }
+            }
+            return temp;
         }
     }
 }

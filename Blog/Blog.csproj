@@ -51,6 +51,9 @@
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -125,6 +128,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <None Include="Views\Backstage\Ueditor.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -133,13 +137,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\BackstageController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="DAL\GetValue.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805250920171__ini.cs" />
-    <Compile Include="Migrations\201805250920171__ini.Designer.cs">
-      <DependentUpon>201805250920171__ini.cs</DependentUpon>
+    <Compile Include="Migrations\201805280849390__ini.cs" />
+    <Compile Include="Migrations\201805280849390__ini.Designer.cs">
+      <DependentUpon>201805280849390__ini.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogContext.cs" />
@@ -170,6 +175,8 @@
     <Content Include="Views\Backstage\Edit.cshtml" />
     <Content Include="Views\Backstage\Del.cshtml" />
     <Content Include="Views\Backstage\TagAdd.cshtml" />
+    <Content Include="Views\Users\Register.cshtml" />
+    <Content Include="Views\Users\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -181,8 +188,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805250920171__ini.resx">
-      <DependentUpon>201805250920171__ini.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805280849390__ini.resx">
+      <DependentUpon>201805280849390__ini.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
