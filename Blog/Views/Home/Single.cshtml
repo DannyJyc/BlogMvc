@@ -211,7 +211,7 @@
                                 @foreach (var title in ViewBag.sellist)
                                 {
 
-                                    <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                    <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
                                 }
                             </ul>
                         </div>
@@ -228,7 +228,7 @@
 
                                 @foreach (var tag in ViewBag.tag)
                                 {
-                                    <li><a href="/Home/Index/?t=@tag">@tag</a></li>
+                                    <li><a href="/Home/Index/?t=@tag"><i style="margin-right: 10px;" class="glyphicon glyphicon-tag"></i>@tag</a></li>
                                 }
                             </ul>
                         </div>
@@ -254,7 +254,7 @@
                         <ul class="clean-list">
                             @foreach (var title in ViewBag.newsposts)
                             {
-                                <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
                             }
                         </ul>
                     </div>

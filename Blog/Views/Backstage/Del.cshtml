@@ -1,14 +1,20 @@
 ﻿@model Blog.Models.Posts
 @{
-    ViewBag.Title = "Del";
-}
+                /**/
 
+                ViewBag.Title = "Del";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 <h2>Del</h2>
 <form action="/Backstage/Del" method="post">
     <input type="hidden" name="PostsId" id="PostsId" value=@Model.PostsId>
     <h1>标题：@Model.Title</h1>
     <h2>简介：@Model.Outline</h2>
-    <h3>文章：@Html.Raw(Model.Content)</h3>
+    <div class="col-xs-12 col-sm-12" style="background-color: #dedef8; margin-top: 20px; margin-bottom: 20px;">
+        <h3>内容：@Html.Raw(Model.Content)</h3>
+    </div>
     <h4>创建时间：@Model.CreateDate</h4>
-    <input type="submit" value="确认删除" />
+    <input type="submit" class="btn-danger" value="确认删除" />
 </form>

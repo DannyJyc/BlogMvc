@@ -1,33 +1,54 @@
 ﻿@using Blog.DAL
 @model IEnumerable<Blog.Models.Posts>
 @{
+    /**/
+
     ViewBag.Title = "Index";
 }
-<a href="/Backstage/Add">新增</a>
-<table border="1">
-    <tr>
-        <th>Title</th>
-        <th>CreateDate</th>
-        <th>Click</th>
-        <th>Tag</th>
-        <th>Operate</th>
-    </tr>
-
-    @foreach (var posts in Model)
-    {
-        <tr>
-            <td>@posts.Title</td>
-            <td>@posts.CreateDate</td>
-            <td>@posts.Click</td>
-            <td>
-                @foreach (var tagname in GetValue.Tag(posts.PostsId))
-                {
-                    @tagname.Name
-                }
-            </td>
-            <td><a href="/Backstage/Edit/@posts.PostsId">编辑</a><a href="/Backstage/Del/@posts.PostsId">删除</a></td>
-        </tr>
+<link href="~/Scripts/DataTables-1.10.16/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/DataTables-1.10.16/js/jquery.dataTables.js"></script>
+<style>
+    a {
+        color: gray;
     }
-
+</style>
+<a href="/Backstage/Add"><i class="glyphicon glyphicon-plus-sign"></i>新增</a>
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>CreateDate</th>
+            <th>Click</th>
+            <th>Tag</th>
+            <th>Operate</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var posts in Model)
+        {
+            <tr>
+                <td>@posts.Title</td>
+                <td>@posts.CreateDate</td>
+                <td>@posts.Click</td>
+                <td>
+                    @{ int temp = 1;}
+                    @foreach (var tagname in GetValue.Tag(posts.PostsId))
+                    {
+                        string str = temp == 1 ? tagname.Name : ","+tagname.Name;
+                        @str
+                        temp++;
+                    }
+                </td>
+                <td><a href="/Backstage/Edit/@posts.PostsId"><i class="glyphicon glyphicon-pencil"></i>编辑</a><a style="margin-left: 10px;" href="/Backstage/Del/@posts.PostsId"><i class="glyphicon glyphicon-trash"></i>删除</a></td>
+            </tr>
+        }
+    </tbody>
 </table>
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable();
 
+    });
+</script>

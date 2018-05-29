@@ -140,7 +140,7 @@
                                 @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                                 @foreach (var title in ViewBag.sellist)
                                 {
-                                    <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                    <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
                                 }
                             </ul>
                         </div>
@@ -155,7 +155,7 @@
                                 @*jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？*@
                                 @foreach (var tag in ViewBag.tag)
                                 {
-                                    <li><a href="/Home/Index/?t=@tag">@tag</a></li>
+                                    <li><a href="/Home/Index/?t=@tag"><i style="margin-right: 10px;" class="glyphicon glyphicon-tag"></i>@tag</a></li>
                                 }
                             </ul>
                         </div>
@@ -182,7 +182,7 @@
                             @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                             @foreach (var title in ViewBag.newsposts)
                             {
-                                <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
                             }
                         </ul>
                     </div>
