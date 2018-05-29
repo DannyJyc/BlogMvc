@@ -16,7 +16,7 @@ namespace Blog.Controllers
         {
             if (Session["Name"] == null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Users/Login");
             }
             int id = Convert.ToInt16(Session["UserId"]);
             var PostsList = from po in context.Postses
@@ -33,6 +33,10 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Add()
         {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Users/Login");
+            }
             var TagList = from tag in context.Tags
                           select tag;
             ViewBag.tag = TagList.Select(p => p.Name).Distinct().Take(20).ToList();
@@ -45,7 +49,7 @@ namespace Blog.Controllers
         {
             if (Session["Name"] == null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Users/Login");
             }
             string Tag;
             if (Request["Tag"] == ""||Request["Tag"]==null)
@@ -120,7 +124,7 @@ namespace Blog.Controllers
         {
             if (Session["Name"] == null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Users/Login");
             }
             int id = n.PostsId;
             var posts = context.Postses.SingleOrDefault(p => p.PostsId == id);
@@ -147,7 +151,7 @@ namespace Blog.Controllers
         {
             if (Session["Name"] == null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Users/Login");
             }
             int id = Convert.ToInt16(Request["PostsId"]);
             var del = context.Postses.Where(p => p.PostsId == id).FirstOrDefault();

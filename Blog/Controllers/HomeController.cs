@@ -10,7 +10,7 @@ namespace Blog.Controllers
         BlogContext context = new BlogContext();
         // GET: Home
         [HttpGet]
-        public ActionResult Index(string t)
+        public ActionResult Index()
         {
             var postList = from p in context.Postses
                            select p;
@@ -25,57 +25,17 @@ namespace Blog.Controllers
             var bydatePosts = from b in context.Postses
                               orderby b.CreateDate descending
                               select b;
-            if (t != null)
-            {
-                //var tagname = (from tag in context.Tags
-                //    where tag.TagId == id
-                //    select tag).SingleOrDefault();
-                postList = from p in context.Postses
-                           from ta in p.Tags
-                           where ta.Name == t
-                           select p;
-            }
+            
 
             ViewBag.tag = tagList.Select(p=>p.Name).Distinct().Take(20).ToList();
             ViewBag.sellist = clickList.Take(6).ToList();
             ViewBag.newsposts = bydatePosts.Take(6).ToList();
 
-            return View(postList);
-        }
-
-        [HttpPost]
-        public ActionResult Index()
-        {
-            if (Session["Name"] == null)
-            {
-                return Redirect("/Home/Index");
-            }
-            string search = Request["Search"];
-            var list = from tag in context.Tags
-                       select tag;
-            var sellist = from po in context.Postses
-                          orderby po.Click descending
-                          select po;
-            var newsposts = from po in context.Postses
-                            orderby po.CreateDate descending
-                            select po;
-            var polist = from po in context.Postses
-                         where (po.Title.Contains(search)) || (po.Outline.Contains(search)) || (po.Content.Contains(search))
-                         select po;
-
-            ViewData["search"] = search;
-            ViewBag.tag = list.ToList();
-            ViewBag.sellist = sellist.ToList();
-            ViewBag.newsposts = newsposts.ToList();
-            return View(polist);
+            return View(postList.Take(10));
         }
 
         public ActionResult About()
         {
-            if (Session["Name"] == null)
-            {
-                return Redirect("/Home/Index");
-            }
             var newsposts = from po in context.Postses
                             orderby po.CreateDate descending
                             select po;
@@ -169,5 +129,68 @@ namespace Blog.Controllers
             context.SaveChanges();
             return Redirect("/Home/Single/" + id);
         }
+
+        public ActionResult Older(string t)
+        {
+            var postList = from p in context.Postses
+                select p;
+            // jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？
+            var tagList = from ta in context.Tags
+                select ta;
+            // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
+            var clickList = from c in context.Postses
+                orderby c.Click descending
+                select c;
+            // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
+            var bydatePosts = from b in context.Postses
+                orderby b.CreateDate descending
+                select b;
+            if (t != null)
+            {
+                //var tagname = (from tag in context.Tags
+                //    where tag.TagId == id
+                //    select tag).SingleOrDefault();
+                postList = from p in context.Postses
+                    from ta in p.Tags
+                    where ta.Name == t
+                    select p;
+            }
+            ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
+            ViewBag.sellist = clickList.Take(6).ToList();
+            ViewBag.newsposts = bydatePosts.Take(6).ToList();
+
+            return View(postList);
+        }
+
+
+        [HttpPost]
+        public ActionResult Older()
+        {
+            if (Session["Name"] == null)
+            {
+                return Redirect("/Users/Login");
+            }
+            string search = Request["Search"];
+            var tagList = from ta in context.Tags
+                select ta;
+            // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
+            var clickList = from c in context.Postses
+                orderby c.Click descending
+                select c;
+            // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
+            var bydatePosts = from b in context.Postses
+                orderby b.CreateDate descending
+                select b;
+            var polist = from po in context.Postses
+                where (po.Title.Contains(search)) || (po.Outline.Contains(search)) || (po.Content.Contains(search))
+                select po;
+
+            ViewData["search"] = search;
+            ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
+            ViewBag.sellist = clickList.Take(6).ToList();
+            ViewBag.newsposts = bydatePosts.Take(6).ToList();
+            return View(polist);
+        }
+
     }
 }

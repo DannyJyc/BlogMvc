@@ -108,19 +108,16 @@
                     <div class="row">
                         @foreach (var posts in Model)
                         {
-                            <div class="col-md-6 col-sm-6">
+                            <div class="col-md-12 col-sm-12" style="margin-bottom: -20px;">
                                 <article class="blog-teaser">
-                                    <header>
-                                        <br>
-                                        <h3><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></h3>
-                                        <span class="meta">@posts.CreateDate</span>
-                                        <hr>
-                                    </header>
+                                    <br>
+                                    <span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span>
+                                    <span class="meta" style="font-size: 10px;">@posts.CreateDate</span>
+                                    <hr>
                                     <div class="body" id="search">
-                                        @posts.Outline
-                                    </div>
-                                    <div class="clearfix">
-                                        <a href="/Home/Single/@posts.PostsId" class="btn btn-clean-one">阅读更多</a>
+                                        <a href="/Home/Single/@posts.PostsId" id="search">
+                                            @posts.Outline
+                                        </a>
                                     </div>
                                 </article>
                             </div>
@@ -129,7 +126,7 @@
                     </div>
 
                     <div class="paging">
-                        <a href="/Home/Older" class="older">以前的文章</a>@*news*@
+                        <a href="/Home/Index">返回</a>@*news*@
                     </div>
                 </div>
                 <aside class="col-md-4 blog-aside">

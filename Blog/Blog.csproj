@@ -177,6 +177,7 @@
     <Content Include="Views\Backstage\TagAdd.cshtml" />
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
+    <Content Include="Views\Home\Older.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

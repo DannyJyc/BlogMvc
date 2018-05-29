@@ -77,9 +77,8 @@
 
 
                 <div class="clean-searchbox">
-                    <form action="#" method="get" accept-charset="utf-8">
-
-                        <input class="searchfield" id="searchbox" type="text" placeholder="Search">
+                    <form action="/Home/Older" method="post" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" name="Search" type="text" placeholder="Search">
                         <button class="searchbutton" type="submit">
                             <i class="fa fa-search"></i>
                         </button>
@@ -140,7 +139,7 @@
                             <article class="comment">
                                 <header class="clearfix">
                                     <div class="meta">
-                                        <h3>@reply.Name&nbsp;&nbsp;<span style="color: grey; size: B4;">第 @temp 层</span></h3>
+                                        <h3>@reply.Name&nbsp;&nbsp;<span style="color: grey; font-size: 15px;">第 @temp 层</span></h3>
                                         <span class="date">
                                             @reply.CreateDate
                                         </span>

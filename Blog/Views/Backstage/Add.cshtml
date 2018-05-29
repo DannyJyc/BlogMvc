@@ -8,6 +8,7 @@
 <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
 <script src="~/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
     
+
 <script type="text/javascript">
     var editor = new baidu.editor.ui.Editor({
         UEDITOR_HOME_URL: '/Scripts/ueditor/',//配置编辑器路径
@@ -56,16 +57,41 @@
     @*上次不是教过你了吗，怎么一个破他妈母版页还这么费事？弄不明白的写一行！写一行！上次怎么解决的忘记了？*@
     @*是不是说过让你tag去看看博客园的tag是怎么实现的？一句话！看没看？！？！？！？！？！？*@
 
-    <input type="text" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span>
+    <input type="text" onkeydown="Ju()" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span><span style="color: orangered;" id="warning"></span>
     <div style="border: 1px solid black;">
         添加已有标签<br/>
+        @{
+            int temp = 1;
+        }
         @foreach (var tag in ViewBag.tag)
         {
-            <input type="checkbox" name="Tags" id="Tag" value=@tag>@tag<br />
+            <input type="checkbox" name="Tags" id="Tag_@temp" value=@tag>@tag<br />
+            temp++;
         }
     </div>
-    <input type="submit" onclick="change()" value="确认新增">
+    <input type="submit" onclick="change()" onmousemove="Ju()" id="submit" value="确认新增">
 </form>
+<script>
+    function Ju() {
+        var str = document.getElementById("Tags").value;
+        var strarr = str.split(",");
+        for (item in strarr) {
+            for (var temp = 1; temp <= 3; temp++) {
+                if (document.getElementById("Tag_" + temp).value == strarr[item]) {
+                    document.getElementById("warning").innerHTML = "↓与已有标签重复↓";
+                    var submit = document.getElementById("submit").setAttribute("disabled", "disabled");
+
+                    break;
+                } else {
+                    document.getElementById("warning").innerHTML = "";
+                    document.getElementById("submit").removeAttribute('disabled');
+                }
+            }
+            //document.getElementById("warning").innerHTML = "";
+            //document.getElementById("submit").removeAttribute('disabled');
+        }
+    }
+</script>
 @*<script>
         function fun() {
             var newsinput = document.createElement("input");
