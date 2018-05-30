@@ -22,7 +22,7 @@ namespace Blog.Controllers
             var PostsList = from po in context.Postses
                             where po.UserId == id
                             select po;
-            if (Convert.ToInt16(Session["Power"]) == 1)
+            if (Convert.ToInt16(Session["Power"]) == 2)
             {
                 PostsList = from po in context.Postses
                             select po;
@@ -41,6 +41,10 @@ namespace Blog.Controllers
             if (Session["Name"] == null)
             {
                 return Redirect("/Users/Login");
+            }
+            else if(Convert.ToInt16(Session["Power"]) == 0)
+            {
+                return RedirectToAction("Ero");
             }
             var TagList = from tag in context.Tags
                           select tag;
@@ -174,6 +178,9 @@ namespace Blog.Controllers
             return RedirectToAction("Index");
         }
 
-
+        public ActionResult Ero()
+        {
+            return View();
+        }
     }
 }

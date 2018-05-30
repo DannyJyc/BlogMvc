@@ -4,7 +4,7 @@
     ViewBag.Title = "Edit";
 }
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 
 <script src="~/Scripts/ueditor/ueditor.config.js"></script>
 <script src="~/Scripts/ueditor/ueditor.all.js"></script>
@@ -15,13 +15,15 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 
 <h2>Edit</h2>
+<a href="/Backstage/Index"><i class="glyphicon glyphicon-th"></i>返回</a>
+
 <div class="contact-form">
     <div class="col-md-8 col-sm-8">
         <form action="/Backstage/Edit" method="post">
             <input type="hidden" name="PostsId" id="PostsId" value=@Model.PostsId>
             标题
             <input type="text" class="form-control" name="Title" id="TItle" value=@Model.Title><br />
-           
+
             <div class="form-group">
                 <label for="Outline">简介</label>
                 <textarea class="form-control" name="Outline" id="Outline">@Model.Outline</textarea><br />

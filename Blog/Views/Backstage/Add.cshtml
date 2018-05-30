@@ -3,7 +3,7 @@
 }
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
-
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 <script src="~/Scripts/ueditor/ueditor.config.js"></script>
 <script src="~/Scripts/ueditor/ueditor.all.js"></script>
 <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
@@ -11,9 +11,7 @@
 <script src="~/Scripts/ueditor/lang/zh-cn/zh-cn.js"></script>
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
-<script type="text/javascript">
-    editor.render('editor');
-</script>
+
 <script>
     function change() {
         var tags = document.getElementById("Tags").value;
@@ -22,57 +20,63 @@
 </script>
 
 <h2>Add</h2>
+<a href="/Backstage/Index"><i class="glyphicon glyphicon-th"></i>返回</a>
+
 <div class="contact-form">
-        <div class="col-md-8 col-sm-8">
-            <form action="/Backstage/Add" method="post">
-                <label for="Title">标题</label>
-                <input type="text" class="form-control" name="Title" id="Title" value="" /><br />
-                <div class="form-group">
-                    <label for="Outline">简介</label>
-                    <textarea class="form-control" name="Outline" id="Outline"></textarea><br />
-                </div>
-                <label for="Content">正文</label>
-                <div>
-                    <script id="editor" name="Content" type="text/plain" style="width:1024px;height:500px;">
-                    </script>
-                </div>
-                @*<div id="btns">
-                        <div>
-                            <a href="#" onclick="getPlainTxt()">获得带格式的纯文本</a>
-                        </div>
-                        <div>
-                            <a href="#" onclick="getLocalData()" >获取草稿箱内容</a>
-                            <a href="#" onclick="clearLocalData()" >清空草稿箱</a>
-                        </div>
+    <div class="col-md-8 col-sm-8">
+        <form action="/Backstage/Add" method="post">
+            <label for="Title">标题</label>
+            <input type="text" class="form-control" name="Title" id="Title" value="" /><br />
+            <div class="form-group">
+                <label for="Outline">简介</label>
+                <textarea class="form-control" name="Outline" id="Outline"></textarea><br />
+            </div>
+            <label for="Content">正文</label>
+            <div>
+                <script id="editor" name="Content" type="text/plain" style="width:1024px;height:500px;">
+                </script>
+            </div>
+            @*<div id="btns">
+                    <div>
+                        <a href="#" onclick="getPlainTxt()">获得带格式的纯文本</a>
+                    </div>
+                    <div>
+                        <a href="#" onclick="getLocalData()" >获取草稿箱内容</a>
+                        <a href="#" onclick="clearLocalData()" >清空草稿箱</a>
+                    </div>
 
-                    </div>*@
-                @*<textarea name="Content" id="Content"></textarea><br />*@
-                <label for="Tag">标签</label><br />
-                <div id="tags"></div>
-                @*上次不是教过你了吗，怎么一个破他妈母版页还这么费事？弄不明白的写一行！写一行！上次怎么解决的忘记了？*@
-                @*是不是说过让你tag去看看博客园的tag是怎么实现的？一句话！看没看？！？！？！？！？！？*@
+                </div>*@
+            @*<textarea name="Content" id="Content"></textarea><br />*@
+            <label for="Tag">标签</label><br />
+            <div id="tags"></div>
+            @*上次不是教过你了吗，怎么一个破他妈母版页还这么费事？弄不明白的写一行！写一行！上次怎么解决的忘记了？*@
+            @*是不是说过让你tag去看看博客园的tag是怎么实现的？一句话！看没看？！？！？！？！？！？*@
 
-                <input type="text" class="form-control" onkeydown="Ju()" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span><span style="color: orangered;" id="warning"></span>
-                <div style="border: 1px solid black;">
-                    添加已有标签<br />
-                    @{
-                        int temp = 1;
-                    }
-                    @foreach (var tag in ViewBag.tag)
-                    {
-                        <label class="checkbox-inline">
-                            <input type="checkbox" name="Tags" id="Tag_@temp" value=@tag>@tag
-                        </label><br />
-                        temp++;
-                    }
-                </div>
-                <input type="submit" class="btn-info" onclick="change()" onmousemove="Ju()" id="submit" value="确认新增">
-            </form>
-        </div>
-    
+            <input type="text" onkeydown="remove()" class="form-control" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span><span style="color: orangered;" id="warning"></span>
+            <div style="border: 1px solid black;">
+                添加已有标签<br />
+                @{
+                    int temp = 1;
+                }
+                @foreach (var tag in ViewBag.tag)
+                {
+                    <label class="checkbox-inline">
+                        <input type="checkbox" name="Tags" id="Tag_@temp" value=@tag>@tag
+                    </label><br />
+                    temp++;
+                }
+            </div>
+            <input type="submit" class="btn-info" onclick="change()" onmousemove="Ju()" id="submit" value="确认新增">
+        </form>
+    </div>
+
 </div>
 
 <script>
+    function remove() {
+        document.getElementById("warning").innerHTML = "";
+        document.getElementById("submit").removeAttribute('disabled');
+    }
     function Ju() {
         var str = document.getElementById("Tags").value;
         var strarr = str.split(",");
@@ -83,9 +87,6 @@
                     var submit = document.getElementById("submit").setAttribute("disabled", "disabled");
 
                     break;
-                } else {
-                    document.getElementById("warning").innerHTML = "";
-                    document.getElementById("submit").removeAttribute('disabled');
                 }
             }
             //document.getElementById("warning").innerHTML = "";
