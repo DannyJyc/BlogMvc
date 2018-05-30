@@ -23,6 +23,7 @@ namespace Blog.Models
         public int UserId { get; set; }
         public User Users { get; set; }
 
+
         public virtual ICollection<Tag> Tags { get; set; }
         public ICollection<Reply> Replys { get; set; }
     }

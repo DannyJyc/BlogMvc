@@ -25,7 +25,7 @@ namespace Blog.Controllers
             if (Convert.ToInt16(Session["Power"]) == 1)
             {
                 PostsList = from po in context.Postses
-                    select po;
+                            select po;
             }
             return View(PostsList);
         }
@@ -57,11 +57,11 @@ namespace Blog.Controllers
                 return Redirect("/Users/Login");
             }
             string Tag;
-            if (Request["Tag"] == ""||Request["Tag"]==null)
+            if (Request["Tag"] == "" || Request["Tag"] == null)
             {
                 Tag = Request["Tags"];
             }
-            else if(Request["Tags"] == ""||Request["Tags"]==null)
+            else if (Request["Tags"] == "" || Request["Tags"] == null)
             {
                 Tag = Request["Tag"];
             }
@@ -69,6 +69,7 @@ namespace Blog.Controllers
             {
                 Tag = Request["Tag"] + "," + Request["Tags"];
             }
+
 
             var posts = new Posts();
             var tag = new Tag();
@@ -78,16 +79,23 @@ namespace Blog.Controllers
             posts.CreateDate = DateTime.Now;
             posts.Click = 0;
             posts.UserId = Convert.ToInt16(Session["UserId"]);
-            string[] tagarr = Tag.Split(',');
-            foreach (var item in tagarr)
+            if (Tag == null || Tag == "")
             {
-                tag.Name = item;
-                tag.Postses.Add(posts);
-                context.Tags.Add(tag);
-                //posts.TagId = n.TagId;
+                context.Postses.Add(posts);
                 context.SaveChanges();
             }
-
+            else
+            {
+                string[] tagarr = Tag.Split(',');
+                foreach (var item in tagarr)
+                {
+                    tag.Name = item;
+                    tag.Postses.Add(posts);
+                    context.Tags.Add(tag);
+                    //posts.TagId = n.TagId;
+                    context.SaveChanges();
+                }
+            }
             return RedirectToAction("Index");
         }
 
@@ -124,6 +132,7 @@ namespace Blog.Controllers
             return View(list);
         }
 
+        [ValidateInput(false)]
         [HttpPost]
         public ActionResult Edit(Posts n)
         {
@@ -164,5 +173,7 @@ namespace Blog.Controllers
             context.SaveChanges();
             return RedirectToAction("Index");
         }
+
+
     }
 }

@@ -16,6 +16,13 @@
     function a() {
         var UserName = document.getElementById("contact-user").value;
         var PassWord = document.getElementById("contact-password").value;
+        if (UserName == "") {
+            document.getElementById("warnName").innerHTML = "用户名不能为空。";
+
+        } else if (PassWord == "") {
+            document.getElementById("warnPwd").innerHTML = "密码不能为空。";
+
+        }
         $.ajax({
             type: 'post',
             url: '/Users/Login',
@@ -24,7 +31,7 @@
                 if (data == "suc") {
                     window.location.href = "/Home/Index";
                 } else {
-                    document.getElementById("warn").innerHTML = "用户名或密码输入错误。";
+                    document.getElementById("warnPwd").innerHTML = "用户名或密码输入错误。";
                 }
             }
         });
@@ -36,11 +43,19 @@
         <h2>Login</h2>
         <div @*action="/Users/Login" method="post"*@ accept-charset="utf-8" class="contact-form">
             <input type="text" name="UserName" id="contact-user" placeholder="用户名" class="form-control input-lg">
+            <span id="warnName" style="color: grey;"></span>
+
             <input type="password" name="PassWord" id="contact-password" placeholder="密码" class="form-control input-lg">
-            <span id="warn" style="color: grey;"></span>
+            <span id="warnPwd" style="color: grey;"></span>
 
             <div class="buttons clearfix">
                 <button type="submit" onclick="a()" class="btn btn-xlarge btn-clean-one" id="btnSubmit">登陆</button>
+            </div>
+            <div class="buttons clearfix">
+                <a href="/Users/Register" class="btn btn-xlarge btn-clean-one">没有账号?点此注册</a>
+            </div>
+            <div class="buttons clearfix">
+                <a href="/Home/Index" class="btn btn-xlarge btn-clean-one">返回主页</a>
             </div>
         </div>
     </div>
