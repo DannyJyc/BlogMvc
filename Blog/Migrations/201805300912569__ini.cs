@@ -68,6 +68,7 @@ namespace Blog.Migrations
                         Email = c.String(),
                         UserName = c.String(),
                         PassWord = c.String(),
+                        Power = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId);
             

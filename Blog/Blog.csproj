@@ -107,13 +107,7 @@
     <Content Include="Content\style.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="img\1.jpg" />
-    <Content Include="img\2.jpg" />
-    <Content Include="img\3.jpg" />
-    <Content Include="img\4.jpg" />
-    <Content Include="img\avatar.png" />
-    <Content Include="img\logo.png" />
-    <Content Include="img\single-post.jpg" />
+    <Content Include="img\DannyJyc.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -171,9 +165,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805280849390__ini.cs" />
-    <Compile Include="Migrations\201805280849390__ini.Designer.cs">
-      <DependentUpon>201805280849390__ini.cs</DependentUpon>
+    <Compile Include="Migrations\201805300912569__ini.cs" />
+    <Compile Include="Migrations\201805300912569__ini.Designer.cs">
+      <DependentUpon>201805300912569__ini.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogContext.cs" />
@@ -218,8 +212,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805280849390__ini.resx">
-      <DependentUpon>201805280849390__ini.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805300912569__ini.resx">
+      <DependentUpon>201805300912569__ini.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

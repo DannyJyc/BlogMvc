@@ -21,70 +21,74 @@
 
 </head>
 <body>
-    <header>
-        <div class="widewrapper masthead">
-            <div class="container">
-                <div id="mobile-nav-toggle" class="pull-right">
-                    <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
-                        <i class="fa fa-bars"></i>
-                    </a>
+<header>
+    <div style="float: right;padding-right: 50px;">
+        @if (Session["Name"] == null)
+        {
+
+            <a style="color: gray;" href="/Users/Login">[登陆]</a>
+            <span id="mark">|</span>
+            <a style="color: gray;" href="/Users/Register">[注册]</a>
+
+        }
+        else
+        {
+
+            <p style="color: gray;">
+                您好<a style="color: #00fa9a;" href="/Backstage/Index">&nbsp;[@Session["Name"]]&nbsp;</a>欢迎回来<span id="mark">|</span>
+                <a style="color: gray;" href="/Users/Logout">[注销]</a>
+            </p>
+
+        }
+    </div>
+    <div class="widewrapper masthead">
+        <div class="container">
+            <a href="/Home/Index" id="logo">
+                <img src="~/img/DannyJyc.jpg" alt="clean Blog">
+            </a>
+            <div id="mobile-nav-toggle" class="pull-right">
+                <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </div>
+
+            <nav class="pull-right clean-nav">
+                <div class="collapse navbar-collapse">
+                    <ul class="nav nav-pills navbar-nav">
+                       
+                        <li>
+                            <a href="/Home/Index">主页</a>
+                        </li>
+                        <li>
+                            <a href="/Home/About">关于</a>
+                        </li>
+                        <li>
+                            <a href="/Home/Contact">联系我</a>
+                        </li>
+                    </ul>
                 </div>
+            </nav>
 
-                <nav class="pull-right clean-nav">
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav nav-pills navbar-nav">
-                            @if (Session["Name"] == null)
-                            {
-                                <li>
-                                    <a style="color: gray;" href="/Users/Login">登陆</a>
-                                </li>
-                                <li>
-                                    <a style="color: gray;" href="/Users/Register">注册</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li>
-                                    <p style="color: gray;">您好<a style="color: #00fa9a;" href="/Backstage/Index/@Session["id"]">@Session["Name"]</a>欢迎回来</p>
+        </div>
+    </div>
 
-                                </li>
-                                <li>
-                                    <a style="color: gray;" href="/Users/Logout">注销</a>
-                                </li>
-                            }
-                            <li>
-                                <a href="/Home/Index">主页</a>
-                            </li>
-                            <li>
-                                <a href="/Home/About">关于</a>
-                            </li>
-                            <li>
-                                <a href="/Home/Contact">联系我</a>
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+    <div class="widewrapper subheader">
+        <div class="container">
+            <div class="clean-breadcrumb">
+                <a href="#">关于我</a>
+            </div>
 
+            <div class="clean-searchbox">
+                <form action="/Home/Older" method="post" accept-charset="utf-8">
+                    <input class="searchfield" id="searchbox" name="Search" type="text" placeholder="Search">
+                    <button class="searchbutton" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
             </div>
         </div>
-
-        <div class="widewrapper subheader">
-            <div class="container">
-                <div class="clean-breadcrumb">
-                    <a href="#">关于我</a>
-                </div>
-
-                <div class="clean-searchbox">
-                    <form action="/Home/Older" method="post" accept-charset="utf-8">
-                        <input class="searchfield" id="searchbox" name="Search" type="text" placeholder="Search">
-                        <button class="searchbutton" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </header>
+    </div>
+</header>
 
     <div class="widewrapper main">
         <div class="container about">

@@ -8,21 +8,69 @@
 <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
 <link href="~/Content/css.css" rel="stylesheet" type='text/css' />
 <link href="~/Content/style.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.10.2.js"></script>
 
+<script>
+    function a() {
+        var Name = document.getElementById("contact-name").value;
+        var Email = document.getElementById("contact-email").value;
+        var UserName = document.getElementById("contact-user").value;
+        var PassWord = document.getElementById("contact-password").value;
 
+        if (Name == "") {
+            document.getElementById("warnName").innerHTML = "名字/昵称不能为空";
 
+        }
+        else if (Email == "") {
+            document.getElementById("warnEmail").innerHTML = "邮箱不能为空";
+
+        }
+        else if (UserName == "") {
+            document.getElementById("warnUserName").innerHTML = "用户名不能为空";
+
+        }
+        else if (PassWord == "") {
+            document.getElementById("warnPwd").innerHTML = "密码不能为空";
+
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '/Users/Register',
+                data: { Name: Name, Email: Email, UserName: UserName, Pwd: PassWord },
+                success: function (data) {
+                    if (data == "suc") {
+
+                        window.location.href = "/Users/Login";
+
+                    } else {
+                        document.getElementById("warnName").innerHTML = "名字/昵称重名！";
+                    }
+                }
+            });
+        }
+        
+    }
+</script>
 <div class="row">
-    
+
     <div class="col-md-6 col-md-offset-3 clean-superblock" id="contact">
         <h2>Register</h2>
-        <form action="/Users/Register" method="post" accept-charset="utf-8" class="contact-form">
+        <div @*action="/Users/Register" method="post"*@ accept-charset="utf-8" class="contact-form">
             <input type="text" name="Name" id="contact-name" placeholder="名字/昵称" class="form-control input-lg">
+            <span id="warnName" style="color: grey;"></span>
+
             <input type="email" name="Email" id="contact-email" placeholder="邮箱" class="form-control input-lg">
+            <span id="warnEmail" style="color: grey;"></span>
+
             <input type="text" name="UserName" id="contact-user" placeholder="用户名（登陆用）" class="form-control input-lg">
+            <span id="warnUserName" style="color: grey;"></span>
+
             <input type="password" name="PassWord" id="contact-password" placeholder="密码" class="form-control input-lg">
+            <span id="warnPwd" style="color: grey;"></span>
+
             <div class="buttons clearfix">
-                <button type="submit" class="btn btn-xlarge btn-clean-one" id="btnSubmit">注册</button>
+                <button type="submit" onclick="a()" class="btn btn-xlarge btn-clean-one" id="btnSubmit">注册</button>
             </div>
-        </form>
+        </div>
     </div>
 </div>

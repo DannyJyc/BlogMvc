@@ -26,6 +26,7 @@ namespace Blog.Models
         public string Email { get; set; }
         public string UserName { get; set; }
         public string PassWord { get; set; }
+        public int Power { get; set; }
 
         public ICollection<Posts> Postses { get; set; }
     }

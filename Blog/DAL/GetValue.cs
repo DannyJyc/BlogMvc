@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using Blog.Models;
 
@@ -16,6 +18,27 @@ namespace Blog.DAL
                        where res.PostsId == pid && res.SecondReply == sid
                        select res;
             return list.ToList();
+        }
+
+        public static bool WithoutRegisterName(string name)
+        {
+            bool t = false;
+            var list = (from user in context.Users
+                where user.Name == name
+                select user).ToList();
+            if (list.Count >= 1)
+            {
+                t = true;
+            }
+            return t;
+        }
+
+        public static string GetStrMd5(string ConvertString)
+        {
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            string t2 = BitConverter.ToString(md5.ComputeHash(UTF8Encoding.Default.GetBytes(ConvertString)));
+            t2 = t2.Replace("-", "");
+            return t2;
         }
 
         public static List<Tag> Tag(int id)

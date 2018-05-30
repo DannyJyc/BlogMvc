@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Blog.DAL;
 using Blog.Models;
 
 namespace Blog.Controllers
@@ -18,16 +19,22 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(User n)
+        public ActionResult Register(string Name, string Email, string UserName, string Pwd)
         {
+            if (GetValue.WithoutRegisterName(Name))
+            {
+                return Content("ero");
+            }
+            
             var users = new User();
-            users.Name = n.Name;
-            users.Email = n.Email;
-            users.UserName = n.UserName;
-            users.PassWord = n.PassWord;
+            users.Name = Name;
+            users.Email = Email;
+            users.UserName = UserName;
+            users.PassWord = GetValue.GetStrMd5(Pwd);
+            users.Power = 0;
             context.Users.Add(users);
             context.SaveChanges();
-            return RedirectToAction("Login");
+            return Content("suc");
         }
 
         public ActionResult Login()
@@ -36,20 +43,23 @@ namespace Blog.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(User n)
+        public ActionResult Login(string Name, string Pwd)
         {
+
+            string p = GetValue.GetStrMd5(Pwd);
             var UserList = (from u in context.Users
-                where u.UserName == n.UserName && u.PassWord == n.PassWord
-                select u).SingleOrDefault();
+                            where u.UserName == Name && u.PassWord == p
+                            select u).SingleOrDefault();
             if (UserList == null)
             {
-                return View();
+                return Content("ero");
             }
 
+            Session["Power"] = UserList.Power;
             Session["Name"] = UserList.Name;
             Session["Email"] = UserList.Email;
             Session["UserId"] = UserList.UserId;
-            return Redirect("/Home/Index");
+            return Content("suc");
         }
 
         public ActionResult Logout()
@@ -57,6 +67,8 @@ namespace Blog.Controllers
             Session["Name"] = null;
             Session["Email"] = null;
             Session["UserId"] = null;
+            Session["Power"] = null;
+
 
             return Redirect("/Home/Index");
         }

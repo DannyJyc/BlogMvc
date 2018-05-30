@@ -22,6 +22,11 @@ namespace Blog.Controllers
             var PostsList = from po in context.Postses
                             where po.UserId == id
                             select po;
+            if (Convert.ToInt16(Session["Power"]) == 1)
+            {
+                PostsList = from po in context.Postses
+                    select po;
+            }
             return View(PostsList);
         }
 
