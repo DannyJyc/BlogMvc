@@ -54,43 +54,56 @@ namespace Blog.Controllers
 
         [ValidateInput(false)]
         [HttpPost]
-        public ActionResult Add(Posts n)
+        public ActionResult Add(string Title,string Outline,string Contents,string Tag,string Tags)
         {
             if (Session["Name"] == null)
             {
                 return Redirect("/Users/Login");
             }
-            string Tag;
-            if (Request["Tag"] == "" || Request["Tag"] == null)
+
+            if (Title == "" || Title == null)
             {
-                Tag = Request["Tags"];
+                return Content("titleNull");
             }
-            else if (Request["Tags"] == "" || Request["Tags"] == null)
+            if (Outline == "" || Outline == null)
             {
-                Tag = Request["Tag"];
+                return Content("outlineNull");
+            }
+            if (Contents == "" || Contents == null)
+            {
+                return Content("contentNull");
+            }
+            string TagPlus;
+            if (Tag == "" || Tag == null)
+            {
+                TagPlus = Tags;
+            }
+            else if (Tags == "" || Tags == null)
+            {
+                TagPlus = Tag;
             }
             else
             {
-                Tag = Request["Tag"] + "," + Request["Tags"];
+                TagPlus = Tag + "," + Tags;
             }
 
 
             var posts = new Posts();
             var tag = new Tag();
-            posts.Title = n.Title;
-            posts.Content = n.Content;
-            posts.Outline = n.Outline;
+            posts.Title = Title;
+            posts.Content = Contents;
+            posts.Outline = Outline;
             posts.CreateDate = DateTime.Now;
             posts.Click = 0;
             posts.UserId = Convert.ToInt16(Session["UserId"]);
-            if (Tag == null || Tag == "")
+            if (TagPlus == null || TagPlus == "")
             {
                 context.Postses.Add(posts);
                 context.SaveChanges();
             }
             else
             {
-                string[] tagarr = Tag.Split(',');
+                string[] tagarr = TagPlus.Split(',');
                 foreach (var item in tagarr)
                 {
                     tag.Name = item;
@@ -100,7 +113,8 @@ namespace Blog.Controllers
                     context.SaveChanges();
                 }
             }
-            return RedirectToAction("Index");
+
+            return Content("suc");
         }
 
         [HttpGet]

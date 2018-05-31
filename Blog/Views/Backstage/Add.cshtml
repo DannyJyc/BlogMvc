@@ -12,30 +12,31 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/bootstrap.min.js"></script>
 
-<script>
-    function change() {
-        var tags = document.getElementById("Tags").value;
-        document.getElementById("Tags").value = tags.replace("，", ",");
-    }
-</script>
+
 
 <h2>Add</h2>
 <a href="/Backstage/Index"><i class="glyphicon glyphicon-th"></i>返回</a>
 
 <div class="contact-form">
     <div class="col-md-8 col-sm-8">
-        <form action="/Backstage/Add" method="post">
+        <div @*action="/Backstage/Add" method="post"*@>
             <label for="Title">标题</label>
-            <input type="text" class="form-control" name="Title" id="Title" value="" /><br />
+            <input type="text" class="form-control" name="Title" id="Title" value="" />
+            <span style="color: grey;" id="warnTitle"></span>
+            <br />
             <div class="form-group">
                 <label for="Outline">简介</label>
-                <textarea class="form-control" name="Outline" id="Outline"></textarea><br />
+                <textarea class="form-control" name="Outline" id="Outline"></textarea>
             </div>
+            <span style="color: grey;" id="warnOutline"></span>
+            <br />
             <label for="Content">正文</label>
             <div>
                 <script id="editor" name="Content" type="text/plain" style="width:1024px;height:500px;">
                 </script>
             </div>
+            <span style="color: grey;" id="warnContent"></span>
+            <br />
             @*<div id="btns">
                     <div>
                         <a href="#" onclick="getPlainTxt()">获得带格式的纯文本</a>
@@ -52,7 +53,7 @@
             @*上次不是教过你了吗，怎么一个破他妈母版页还这么费事？弄不明白的写一行！写一行！上次怎么解决的忘记了？*@
             @*是不是说过让你tag去看看博客园的tag是怎么实现的？一句话！看没看？！？！？！？！？！？*@
 
-            <input type="text" onkeydown="remove()" class="form-control" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span><span style="color: orangered;" id="warning"></span>
+            <input type="text" onclick="remove()" class="form-control" name="Tag" id="Tags" /><span style="color: grey;">(多个标签之间用“,”分隔)</span><span style="color: orangered;" id="warning"></span>
             <div style="border: 1px solid black;">
                 添加已有标签<br />
                 @{
@@ -67,31 +68,86 @@
                 }
             </div>
             <input type="submit" class="btn-info" onclick="change()" onmousemove="Ju()" id="submit" value="确认新增">
-        </form>
+        </div>
     </div>
 
 </div>
-
 <script>
-    function remove() {
-        document.getElementById("warning").innerHTML = "";
-        document.getElementById("submit").removeAttribute('disabled');
-    }
-    function Ju() {
+    function change() {
+        var tags = document.getElementById("Tags").value;
+        document.getElementById("Tags").value = tags.replace("，", ",");
+        var title = document.getElementById("Title").value;
+        var outline = document.getElementById("Outline").value;
+
+        //function getContent() {
+        //    var arr = [];
+        //    arr.push("使用editor.getContent()方法可以获得编辑器的内容");
+        //    arr.push("内容为：");
+        //    arr.push(UE.getEditor('editor').getContent());
+        //    alert(arr.join("\n"));
+        //}
+
+        var content = UE.getEditor('editor').getContent();
         var str = document.getElementById("Tags").value;
         var strarr = str.split(",");
+        var Tags_temp = "";
+        var forNum = @temp - 1;
         for (item in strarr) {
-            for (var temp = 1; temp <= 3; temp++) {
-                if (document.getElementById("Tag_" + temp).value == strarr[item]) {
-                    document.getElementById("warning").innerHTML = "↓与已有标签重复↓";
-                    var submit = document.getElementById("submit").setAttribute("disabled", "disabled");
-
-                    break;
+            for (var temp = 1; temp <= forNum; temp++) {
+                if (document.getElementById("Tag_" + temp).checked) {
+                    if (temp == 1) {
+                        Tags_temp += document.getElementById("Tag_" + temp).value;
+                    } else {
+                        Tags_temp += "," + document.getElementById("Tag_" + temp).value;
+                    }
                 }
             }
             //document.getElementById("warning").innerHTML = "";
             //document.getElementById("submit").removeAttribute('disabled');
         }
+        $.ajax({
+            type: 'post',
+            url: '/Backstage/Add',
+            data: { Title: title,Outline:outline,Contents:content,Tag:str,Tags:Tags_temp },
+            success: function (data) {
+                if (data == "suc") {
+                    window.location.href = "/Backstage/Index";
+                } else if (data == "titleNull") {
+                    document.getElementById("warnTitle").innerHTML = "标题不能为空";
+                } else if (data == "outlineNull") {
+                    document.getElementById("warnOutline").innerHTML = "简介不能为空";
+                } else if (data == "contentNull") {
+                    document.getElementById("warnContent").innerHTML = "内容不能为空";
+                }
+            }
+        });
+    }
+    function remove() {
+        document.getElementById("warning").innerHTML = "";
+        document.getElementById("submit").removeAttribute('disabled');
+    }
+    function Ju() {
+
+        var str = document.getElementById("Tags").value;
+        var strarr = str.split(",");
+        var Tags_temp = "";
+        var forNum = @temp - 1;
+        for (item in strarr) {
+            for (var temp = 1; temp <= forNum; temp++) {
+                if (temp == 1) {
+                    Tags_temp += document.getElementById("Tag_" + temp).value;
+                } else {
+                    Tags_temp += ","+document.getElementById("Tag_" + temp).value;
+                }
+                if (document.getElementById("Tag_" + temp).value == strarr[item]) {
+                    document.getElementById("warning").innerHTML = "↓与已有标签重复↓";
+                    document.getElementById("submit").setAttribute("disabled", "disabled");
+                }
+            }
+            //document.getElementById("warning").innerHTML = "";
+            //document.getElementById("submit").removeAttribute('disabled');
+        }
+
     }
 </script>
 @*<script>
