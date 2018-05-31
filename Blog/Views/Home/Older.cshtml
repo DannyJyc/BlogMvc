@@ -6,7 +6,7 @@
     <title>Home</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
     <!-- Bootstrap styles -->
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <!-- Font-Awesome -->
@@ -109,25 +109,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8 blog-main">
-                    <div class="row">
-                        @foreach (var posts in Model)
-                        {
-                            <div class="col-md-12 col-sm-12" style="margin-bottom: -20px;">
-                                <article class="blog-teaser">
-                                    <br>
-                                    <span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span>
-                                    <span class="meta" style="font-size: 10px;">@posts.CreateDate</span>
-                                    <hr>
-                                    <div class="body" id="search">
-                                        <a href="/Home/Single/@posts.PostsId" id="search">
-                                            @posts.Outline
-                                        </a>
-                                    </div>
-                                </article>
-                            </div>
-                        }
-
+                    <div class="row" id="row">
                     </div>
+                    <div id="demo"></div>
 
                     <div class="paging">
                         <a href="/Home/Index" class="btn btn-xlarge">返回</a>@*news*@
@@ -144,7 +128,7 @@
                                 @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                                 @foreach (var title in ViewBag.sellist)
                                 {
-                                    <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
+                                    <li style="margin-left: 3em;"><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
                                 }
                             </ul>
                         </div>
@@ -178,7 +162,7 @@
                         <h1>Hello, My name is <span class="about-bold">  DannyJyc</span></h1>
 
                         @*<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi laboriosam nostrum consequatur fugiat at, labore praesentium modi, quasi dolorum debitis reiciendis facilis, dolor saepe sint nemo, earum molestias quas.</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, error aspernatur assumenda quae eveniet.</p>*@
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, error aspernatur assumenda quae eveniet.</p>*@
                     </div>
 
                     <div class="col-md-4 footer-widget">
@@ -187,7 +171,7 @@
                             @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                             @foreach (var title in ViewBag.newsposts)
                             {
-                                <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
+                                <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
                             }
                         </ul>
                     </div>
@@ -212,6 +196,46 @@
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        var data = [
+            @{ int number = 1;}
+            @foreach (var posts in Model)
+            {
+                if(number == 1) {
+                @:'<div class="col-md-12 col-sm-12" style="margin-bottom: -20px;"><article class="blog-teaser"><br><span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span><span class="meta" style="font-size: 10px;">@posts.CreateDate</span><hr><div class="body" id="search"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Outline</a></div></article></div>'
+                }
+                else
+                {
+                @:,'<div class="col-md-12 col-sm-12" style="margin-bottom: -20px;"><article class="blog-teaser"><br><span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span><span class="meta" style="font-size: 10px;">@posts.CreateDate</span><hr><div class="body" id="search"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Outline</a></div></article></div>'
 
+                }
+                number++;
+            }
+
+        ];
+
+        //调用分页
+        laypage.render({
+            elem: 'demo'
+            ,count: data.length
+            ,jump: function(obj){
+                //模拟渲染
+                document.getElementById("row").innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push(item );
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+
+    });
+    </script>
 </body>
 </html>
