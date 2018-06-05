@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using Blog.DAL;
 using Blog.Models;
 
 namespace Blog.Controllers
@@ -9,6 +10,12 @@ namespace Blog.Controllers
     {
         BlogContext context = new BlogContext();
         // GET: Home
+
+        public ActionResult Many(string name)
+        {
+            return Content("hello " + name);
+        }
+
         [HttpGet]
         public ActionResult Index()
         {
@@ -16,7 +23,7 @@ namespace Blog.Controllers
                            select p;
             // jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？
             var tagList = from ta in context.Tags
-                select ta;
+                          select ta;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var clickList = from c in context.Postses
                             orderby c.Click descending
@@ -25,9 +32,9 @@ namespace Blog.Controllers
             var bydatePosts = from b in context.Postses
                               orderby b.CreateDate descending
                               select b;
-            
 
-            ViewBag.tag = tagList.Select(p=>p.Name).Distinct().Take(20).ToList();
+
+            ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
             ViewBag.sellist = clickList.Take(6).ToList();
             ViewBag.newsposts = bydatePosts.Take(6).ToList();
 
@@ -109,6 +116,29 @@ namespace Blog.Controllers
             return Redirect("Success");
         }
 
+        //public ActionResult Users(string t)
+        //{
+        //    var tagList = from ta in context.Tags
+        //        select ta;
+        //    var clickList = from c in context.Postses
+        //        orderby c.Click descending
+        //        select c;
+        //    var bydatePosts = from b in context.Postses
+        //        orderby b.CreateDate descending
+        //        select b;
+        //    var userlist = (from user in context.Users
+        //        where user.UserName == t
+        //        select user).SingleOrDefault();
+        //    var postList = from p in context.Postses
+        //        where p.UserId == userlist.UserId
+        //        select p;
+        //    ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
+        //    ViewBag.sellist = clickList.Take(6).ToList();
+        //    ViewBag.newsposts = bydatePosts.Take(6).ToList();
+        //    ViewBag.polist = postList.ToList();
+        //    return View("Older");
+        //}
+
         [HttpPost]
         public ActionResult Single(Reply n, int id)
         {
@@ -116,6 +146,13 @@ namespace Blog.Controllers
             {
                 return Redirect("/Users/Login");
             }
+            int groupid = Convert.ToInt16(Session["GroupId"]);
+            if (!GetValue.PerTwo(groupid))
+            {
+                return Redirect("/Backstage/Ero");
+
+            }
+
             var reply = new Reply
             {
                 Name = n.Name,
@@ -130,36 +167,46 @@ namespace Blog.Controllers
             return Redirect("/Home/Single/" + id);
         }
 
-        public ActionResult Older(string t)
+        public ActionResult Older(string t,string username)
         {
             var postList = from p in context.Postses
-                select p;
+                           select p;
             // jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？
             var tagList = from ta in context.Tags
-                select ta;
+                          select ta;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var clickList = from c in context.Postses
-                orderby c.Click descending
-                select c;
+                            orderby c.Click descending
+                            select c;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var bydatePosts = from b in context.Postses
-                orderby b.CreateDate descending
-                select b;
+                              orderby b.CreateDate descending
+                              select b;
             if (t != null)
             {
                 //var tagname = (from tag in context.Tags
                 //    where tag.TagId == id
                 //    select tag).SingleOrDefault();
                 postList = from p in context.Postses
-                    from ta in p.Tags
-                    where ta.Name == t
-                    select p;
+                           from ta in p.Tags
+                           where ta.Name == t
+                           select p;
+            }
+            else if(username!=null)
+            {
+                var userlist = (from user in context.Users
+                                where user.UserName == username
+                                select user).SingleOrDefault();
+                postList = from p in context.Postses
+                           where p.UserId == userlist.UserId
+                           select p;
             }
             ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
             ViewBag.sellist = clickList.Take(6).ToList();
             ViewBag.newsposts = bydatePosts.Take(6).ToList();
+            ViewBag.polist = postList.ToList();
 
-            return View(postList);
+            return View();
         }
 
 
@@ -170,26 +217,33 @@ namespace Blog.Controllers
             {
                 return Redirect("/Users/Login");
             }
+            int groupid = Convert.ToInt16(Session["GroupId"]);
+            if (!GetValue.PerThree(groupid))
+            {
+                return Redirect("/Backstage/Ero");
+
+            }
             string search = Request["Search"];
             var tagList = from ta in context.Tags
-                select ta;
+                          select ta;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var clickList = from c in context.Postses
-                orderby c.Click descending
-                select c;
+                            orderby c.Click descending
+                            select c;
             // jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗
             var bydatePosts = from b in context.Postses
-                orderby b.CreateDate descending
-                select b;
+                              orderby b.CreateDate descending
+                              select b;
             var polist = from po in context.Postses
-                where (po.Title.Contains(search)) || (po.Outline.Contains(search)) || (po.Content.Contains(search))
-                select po;
+                         where (po.Title.Contains(search)) || (po.Outline.Contains(search)) || (po.Content.Contains(search))
+                         select po;
 
             ViewData["search"] = search;
             ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
             ViewBag.sellist = clickList.Take(6).ToList();
             ViewBag.newsposts = bydatePosts.Take(6).ToList();
-            return View(polist);
+            ViewBag.polist = polist.ToList();
+            return View();
         }
 
     }

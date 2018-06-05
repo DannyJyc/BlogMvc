@@ -1,5 +1,4 @@
-﻿@model IEnumerable<Blog.Models.Posts>
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -128,7 +127,7 @@
                                 @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                                 @foreach (var title in ViewBag.sellist)
                                 {
-                                    <li style="margin-left: 3em;"><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                    <li style="margin-left: 2.5em;"><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
                                 }
                             </ul>
                         </div>
@@ -180,7 +179,7 @@
                         <h3> <i class="fa fa-envelope"></i>联系我</h3>
 
                         <p><i class="glyphicon glyphicon-envelope"></i>&nbsp;Email:13080839167@163.com</p>
-                        <p><i class="glyphicon glyphicon-comment"></i>&nbsp;Wechat:13080839167</p>
+
                         <p><i class="glyphicon glyphicon-phone"></i>&nbsp;QQ:2424002249</p>
 
                     </div>
@@ -193,7 +192,7 @@
         </div>
     </footer>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
     <script src="~/layui/layui.js"></script>
@@ -203,7 +202,7 @@
             ,layer = layui.layer;
         var data = [
             @{ int number = 1;}
-            @foreach (var posts in Model)
+            @foreach (var posts in ViewBag.polist)
             {
                 if(number == 1) {
                 @:'<div class="col-md-12 col-sm-12" style="margin-bottom: -20px;"><article class="blog-teaser"><br><span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span><span class="meta" style="font-size: 10px;">@posts.CreateDate</span><hr><div class="body" id="search"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Outline</a></div></article></div>'

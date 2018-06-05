@@ -225,7 +225,6 @@
     <Content Include="layui\font\iconfont.eot" />
     <Content Include="layui\font\iconfont.ttf" />
     <Content Include="layui\font\iconfont.woff" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\DataTables-1.10.16\css\dataTables.bootstrap.css" />
     <Content Include="Scripts\DataTables-1.10.16\css\dataTables.bootstrap.min.css" />
     <Content Include="Scripts\DataTables-1.10.16\css\dataTables.bootstrap4.css" />
@@ -255,11 +254,16 @@
     <Content Include="Scripts\DataTables-1.10.16\js\dataTables.semanticui.min.js" />
     <Content Include="Scripts\DataTables-1.10.16\js\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables-1.10.16\js\jquery.dataTables.min.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.3.1.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.js" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\layui.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Views\Backstage\Ero.cshtml" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
     <None Include="Views\Backstage\Ueditor.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -274,9 +278,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805300912569__ini.cs" />
-    <Compile Include="Migrations\201805300912569__ini.Designer.cs">
-      <DependentUpon>201805300912569__ini.cs</DependentUpon>
+    <Compile Include="Migrations\201806050743342__ini.cs" />
+    <Compile Include="Migrations\201806050743342__ini.Designer.cs">
+      <DependentUpon>201806050743342__ini.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BlogContext.cs" />
@@ -297,7 +301,6 @@
     <None Include="packages.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Success.cshtml" />
@@ -310,6 +313,9 @@
     <Content Include="Views\Users\Register.cshtml" />
     <Content Include="Views\Users\Login.cshtml" />
     <Content Include="Views\Home\Older.cshtml" />
+    <Content Include="Views\Users\List.cshtml" />
+    <Content Include="Views\Users\GroupList.cshtml" />
+    <Content Include="Views\Users\GroupAdd.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -321,8 +327,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201805300912569__ini.resx">
-      <DependentUpon>201805300912569__ini.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201806050743342__ini.resx">
+      <DependentUpon>201806050743342__ini.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

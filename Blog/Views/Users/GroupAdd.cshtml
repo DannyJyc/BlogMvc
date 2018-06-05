@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "GroupAdd";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+
+
+<div class="container">
+    <div class="row">
+        <h2>GroupAdd</h2>
+        <div class="col-md-8">
+            <form class="form-group" method="post" action="/Users/GroupAdd">
+                <label for="GroupName">方法组：</label>
+                <input class="form-control" type="text" name="GroupName" id="GroupName" value=""/><br/>
+                <input class="btn btn-success" type="submit" value="添加组"/>
+            </form>
+        </div>
+    </div>
+</div>

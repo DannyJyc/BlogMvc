@@ -24,7 +24,7 @@ namespace Blog.DAL
         {
             bool t = false;
             var list = (from user in context.Users
-                where user.Name == name
+                where user.UserName == name
                 select user).ToList();
             if (list.Count >= 1)
             {
@@ -56,7 +56,15 @@ namespace Blog.DAL
             var list = (from user in context.Users
                 where user.UserId == id
                 select user).SingleOrDefault();
-            return list.Name;
+            return list.UserName;
+        }
+
+        public static string GroupName(int id)
+        {
+            var grouplist = (from gro in context.Groups
+                where gro.GroupId == id
+                select gro).SingleOrDefault();
+            return grouplist.GroupName;
         }
 
         public static int TagNameId(string Name)
@@ -82,6 +90,88 @@ namespace Blog.DAL
                     break;
                 }
             }
+            return temp;
+        }
+
+        public static bool PerOne(int groupid)
+        {
+            bool temp = false;
+            var grouplist = (from per in context.Permissions
+                where per.GroupId == groupid
+                select per).ToList();
+            foreach (var item in grouplist)
+            {
+                if (item.PermissionId == 1)
+                {
+                    temp = true;
+                    break;
+                }
+            }
+            return temp;
+        }
+        public static bool PerTwo(int groupid)
+        {
+            bool temp = false;
+            var grouplist = (from per in context.Permissions
+                where per.GroupId == groupid
+                select per).ToList();
+            foreach (var item in grouplist)
+            {
+                if (item.PermissionId == 2)
+                {
+                    temp = true;
+                    break;
+                }
+            }
+            return temp;
+        }
+        public static bool PerThree(int groupid)
+        {
+            bool temp = false;
+            var grouplist = (from per in context.Permissions
+                where per.GroupId == groupid
+                select per).ToList();
+            foreach (var item in grouplist)
+            {
+                if (item.PermissionId == 3)
+                {
+                    temp = true;
+                    break;
+                }
+            }
+            return temp;
+        }
+        public static bool PerFour(int groupid)
+        {
+            bool temp = false;
+            var grouplist = (from per in context.Permissions
+                where per.GroupId == groupid
+                select per).ToList();
+            foreach (var item in grouplist)
+            {
+                if (item.PermissionId == 4)
+                {
+                    temp = true;
+                    break;
+                }
+            }
+            return temp;
+        }
+
+        public static bool GroupPowers(int id, int powerid)
+        {
+            bool temp = false;
+            var power = (from per in context.Permissions
+                where per.GroupId == id
+                select per).ToList();
+            foreach (var permission in power)
+            {
+                if (permission.PermissionId == powerid)
+                {
+                    return true;
+                }
+            }
+
             return temp;
         }
     }

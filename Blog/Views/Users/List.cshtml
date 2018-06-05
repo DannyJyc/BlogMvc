@@ -1,0 +1,84 @@
+﻿@using Blog.DAL
+@model IEnumerable<Blog.Models.User>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<link href="~/Scripts/DataTables-1.10.16/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DataTables-1.10.16/js/jquery.dataTables.js"></script>
+
+<a href="/Backstage/Index" class="btn btn-success"><i class="glyphicon glyphicon-chevron-left"></i>返回</a>
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Group</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ int item = 1;}
+        @foreach (var users in Model)
+        {
+            <tr>
+                <td>@users.UserName</td>
+                <td>
+                    <div class="col-lg-4">
+                        <input type="hidden" id="UserId_@item" name="UserId" value=@users.UserId>
+                        <select class="form-control" id="GroupId_@item" name="GroupId">
+                            <option @if (users.GroupId == 0) { @: selected="selected"
+                                    }
+                                    value="0">
+                                --请选择--
+                            </option>
+                            @foreach (var group in ViewBag.group)
+                            {
+                                <option @if (group.GroupId == users.GroupId) { @: selected="selected"
+                                        }
+                                        value=@group.GroupId>
+                                    @group.GroupName
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </td>
+            </tr>
+            item++;
+        }
+    </tbody>
+</table>
+<input type="button" onclick="btnonclick()" class="btn btn-success" value="确认提交" />
+<a href="/Users/GroupList" class="btn btn-primary">管理角色组</a>
+
+<script>
+    function btnonclick() {
+        var UserId = "";
+        var GroupId = "";
+        for (var i = 1; i <= @item - 1; i++) {
+            if (i == 1) {
+                UserId += document.getElementById("UserId_" + i).value;
+                GroupId += document.getElementById("GroupId_" + i).value;
+            } else {
+                UserId += ","+document.getElementById("UserId_" + i).value;
+                GroupId += ","+document.getElementById("GroupId_" + i).value;
+            }
+        }
+        $.ajax({
+            type: 'post',
+            url: '/Users/List',
+            data: { UserId: UserId, GroupId: GroupId },
+            success: function(data) {
+
+            }
+        });
+    }
+</script>
+<script>
+
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+
+    });
+</script>

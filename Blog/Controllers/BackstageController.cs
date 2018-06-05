@@ -18,15 +18,23 @@ namespace Blog.Controllers
             {
                 return Redirect("/Users/Login");
             }
+
+            int groupid = Convert.ToInt16(Session["GroupId"]);
+            if (!GetValue.PerThree(groupid))
+            {
+                return Redirect("/Backstage/Ero");
+            }
             int id = Convert.ToInt16(Session["UserId"]);
             var PostsList = from po in context.Postses
                             where po.UserId == id
                             select po;
-            if (Convert.ToInt16(Session["Power"]) == 2)
+            if (GetValue.PerFour(groupid))
             {
                 PostsList = from po in context.Postses
                             select po;
             }
+
+            ViewBag.groupid = groupid;
             return View(PostsList);
         }
 
@@ -38,13 +46,14 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Add()
         {
+            int groupid = Convert.ToInt16(Session["GroupId"]);
             if (Session["Name"] == null)
             {
                 return Redirect("/Users/Login");
             }
-            else if(Convert.ToInt16(Session["Power"]) == 0)
+            else if (!GetValue.PerThree(groupid))
             {
-                return RedirectToAction("Ero");
+                return Redirect("/Backstage/Ero");
             }
             var TagList = from tag in context.Tags
                           select tag;
@@ -140,6 +149,11 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
+            int groupid = Convert.ToInt16(Session["GroupId"]);
+            if (!GetValue.PerThree(groupid))
+            {
+                return Redirect("/Backstage/Ero");
+            }
             var list = (from po in context.Postses
                         where po.PostsId == id
                         select po).First();
@@ -172,6 +186,11 @@ namespace Blog.Controllers
         [HttpGet]
         public ActionResult Del(int id)
         {
+            int groupid = Convert.ToInt16(Session["GroupId"]);
+            if (!GetValue.PerThree(groupid))
+            {
+                return Redirect("/Backstage/Ero");
+            }
             var list = (from po in context.Postses
                         where po.PostsId == id
                         select po).SingleOrDefault();

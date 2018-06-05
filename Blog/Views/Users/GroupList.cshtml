@@ -1,0 +1,108 @@
+﻿@using Blog.DAL
+@model IEnumerable<Blog.Models.Group>
+@{
+    ViewBag.Title = "GroupList";
+}
+
+<h2>GroupList</h2>
+<link href="~/Scripts/DataTables-1.10.16/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/DataTables-1.10.16/js/jquery.dataTables.js"></script>
+
+<style>
+    a {
+        color: gray;
+        margin-right: 10px;
+    }
+</style>
+
+<a href="/Users/GroupAdd" class="btn btn-primary">添加角色组</a>
+<a href="/Users/List" class="btn btn-success"><i class="glyphicon glyphicon-chevron-left"></i>返回</a>
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>GroupName</th>
+            <th>Power</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int i = 1;
+        }
+        @foreach (var group in Model)
+        {
+            <tr>
+                <td>@group.GroupName</td>
+                <td>
+                    <input type="hidden" value="@group.GroupId" name="GroupId" id="GroupId_@i" />
+                    <input type="checkbox"
+                           @if (GetValue.GroupPowers(group.GroupId, 1)) { @: checked="checked"
+                           } name="power" id="power_1_@i" value="1" onclick="checkboxonclick()" />
+                    <label for="power_1_@i">查看文章</label>
+                    <input type="checkbox"
+                           @if (GetValue.GroupPowers(group.GroupId, 2)) { @: checked="checked"
+                           } name="power" id="power_2_@i" value="2" onclick="checkboxonclick()" />
+                    <label for="power_2_@i">文章回复</label>
+                    <input type="checkbox"
+                           @if (GetValue.GroupPowers(group.GroupId, 3)) { @: checked="checked"
+                           } name="power" id="power_3_@i" value="3" onclick="checkboxonclick()" />
+                    <label for="power_3_@i">操作文章</label>
+                    <input type="checkbox"
+                           @if (GetValue.GroupPowers(group.GroupId, 4)) { @: checked="checked"
+                           } name="power" id="power_4_@i" value="4" onclick="checkboxonclick()" />
+                    <label for="power_4_@i">管理</label>
+                </td>
+            </tr>
+            i++;
+        }
+
+    </tbody>
+</table>
+<script>
+    function checkboxonclick() {
+        for (var a = 1; a <= @i - 1; a++) {
+            var groupid = document.getElementById("GroupId_"+a).value;
+            var power_1;
+            var power_2;
+            var power_3;
+            var power_4;
+            var power = "";
+            if (document.getElementById("power_1_"+a).checked) {
+                power_1 = document.getElementById("power_1_"+a).value;
+                power += power_1;
+
+            }
+            if (document.getElementById("power_2_"+a).checked) {
+                power_2 = document.getElementById("power_2_"+a).value;
+                power += "," + power_2;
+
+            }
+            if (document.getElementById("power_3_"+a).checked) {
+                power_3 = document.getElementById("power_3_"+a).value;
+                power += "," + power_3;
+
+            }
+            if (document.getElementById("power_4_"+a).checked) {
+                power_4 = document.getElementById("power_4_"+a).value;
+                power += "," + power_4;
+
+            }//上次到这里
+            $.ajax({
+                type: 'post',
+                url: '/Users/GroupList',
+                data: { GroupId: groupid, Power: power },
+                success: function (data) {
+
+                }
+            });
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+
+    });
+</script>

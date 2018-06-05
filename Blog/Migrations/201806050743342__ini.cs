@@ -8,6 +8,27 @@ namespace Blog.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.Groups",
+                c => new
+                    {
+                        GroupId = c.Int(nullable: false, identity: true),
+                        GroupName = c.String(),
+                    })
+                .PrimaryKey(t => t.GroupId);
+            
+            CreateTable(
+                "dbo.Permissions",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        GroupId = c.Int(nullable: false),
+                        PermissionId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Groups", t => t.GroupId, cascadeDelete: true)
+                .Index(t => t.GroupId);
+            
+            CreateTable(
                 "dbo.Messages",
                 c => new
                     {
@@ -64,11 +85,10 @@ namespace Blog.Migrations
                 c => new
                     {
                         UserId = c.Int(nullable: false, identity: true),
-                        Name = c.String(),
                         Email = c.String(),
                         UserName = c.String(),
                         PassWord = c.String(),
-                        Power = c.Int(nullable: false),
+                        GroupId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.UserId);
             
@@ -93,16 +113,20 @@ namespace Blog.Migrations
             DropForeignKey("dbo.TagPosts", "Posts_PostsId", "dbo.Posts");
             DropForeignKey("dbo.TagPosts", "Tag_TagId", "dbo.Tags");
             DropForeignKey("dbo.Replies", "PostsId", "dbo.Posts");
+            DropForeignKey("dbo.Permissions", "GroupId", "dbo.Groups");
             DropIndex("dbo.TagPosts", new[] { "Posts_PostsId" });
             DropIndex("dbo.TagPosts", new[] { "Tag_TagId" });
             DropIndex("dbo.Replies", new[] { "PostsId" });
             DropIndex("dbo.Posts", new[] { "UserId" });
+            DropIndex("dbo.Permissions", new[] { "GroupId" });
             DropTable("dbo.TagPosts");
             DropTable("dbo.Users");
             DropTable("dbo.Tags");
             DropTable("dbo.Replies");
             DropTable("dbo.Posts");
             DropTable("dbo.Messages");
+            DropTable("dbo.Permissions");
+            DropTable("dbo.Groups");
         }
     }
 }
