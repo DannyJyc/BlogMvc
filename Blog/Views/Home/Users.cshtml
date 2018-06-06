@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <!-- Bootstrap styles -->
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font-Awesome -->
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Google Webfonts -->
+    <link href="~/Content/css.css" rel="stylesheet" type='text/css' />
+    <!-- Styles -->
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <!--[if lt IE 9]>
+        <script src="js/vendor/google/html5-3.6-respond-1.1.0.min.js"></script>
+    <![endif]-->
+    @*<script>
+
+            function key() {
+                var content = document.getElementById("search");
+                var contents = content.innerText;
+                var text = document.getElementById("text");
+                var value = text.value;
+                var values = contents.split(value.toLowerCase());
+                var values1 = contents.split(value.toUpperCase());
+                content.innerHTML = values.join('<span style="background:red;">' + value.toLowerCase()+ '</span>');
+                content.innerHTML = values1.join('<span style="background:red;">' + value.toUpperCase() + '</span>');
+            };
+
+            window.onload = key;
+        </script>*@
+</head>
+<body>
+    <header>
+        <div style="float: right;">
+            @if (Session["Name"] == null)
+            {
+
+                <a style="color: gray;" href="/Users/Login">[登陆]</a>
+                <span id="mark">|</span>
+                <a style="color: gray;" href="/Users/Register">[注册]</a>
+
+            }
+            else
+            {
+
+                <p style="color: gray;">
+                    您好<a style="color: #00fa9a;" href="/Backstage/Index">&nbsp;[@Session["Name"]]&nbsp;</a>欢迎回来<span id="mark">|</span>
+                    <a style="color: gray;" href="/Users/Logout">[注销]</a>
+                </p>
+
+            }
+        </div>
+        <div class="widewrapper masthead">
+            <div class="container">
+                <a href="/Home/Index" id="logo">
+                    <img src="/img/DannyJyc.jpg" alt="clean Blog">
+                </a>
+                <div id="mobile-nav-toggle" class="pull-right">
+                    <a href="#" data-toggle="collapse" data-target=".clean-nav .navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+
+                <nav class="pull-right clean-nav">
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav nav-pills navbar-nav">
+
+                            <li>
+                                <a href="/Home/Index">主页</a>
+                            </li>
+                            <li>
+                                <a href="/Home/About">关于</a>
+                            </li>
+                            <li>
+                                <a href="/Home/Contact">联系我</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+
+            </div>
+        </div>
+
+        <div class="widewrapper subheader">
+            <div class="container">
+                <div class="clean-breadcrumb">
+                    <a href="#">Blog</a>
+                </div>
+
+                <div class="clean-searchbox">
+                    <form action="/Home/Older" method="post" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" name="Search" type="text" placeholder="Search">
+                        <button class="searchbutton" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="widewrapper main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 blog-main">
+                    <div class="row" id="row">
+                    </div>
+                    <div id="demo"></div>
+
+                    <div class="paging">
+                        <a href="/Home/Index" class="btn btn-xlarge">返回</a>@*news*@
+                    </div>
+                </div>
+                <aside class="col-md-4 blog-aside">
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>精选文章</h3>
+                        </header>
+                        <div class="body">
+                            <ul class="clean-list">
+                                @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
+                                @foreach (var title in ViewBag.sellist)
+                                {
+                                    <li style="margin-left: 2.5em;"><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="aside-widget">
+                        <header>
+                            <h3>标签</h3>
+                        </header>
+                        <div class="body clearfix">
+                            <ul class="tags">
+                                @*jycsb这里应该限制去除最多多少条，不然前端应该预留给你多大的空间呢？*@
+                                @foreach (var tag in ViewBag.tag)
+                                {
+                                    <li><a href="/Home/Index/?t=@tag"><i style="margin-right: 10px;" class="glyphicon glyphicon-tag"></i>@tag</a></li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="widewrapper footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-user"></i> 关于我</h3>
+                        <h1>Hello, My name is <span class="about-bold">  DannyJyc</span></h1>
+
+                        @*<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab animi laboriosam nostrum consequatur fugiat at, labore praesentium modi, quasi dolorum debitis reiciendis facilis, dolor saepe sint nemo, earum molestias quas.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, error aspernatur assumenda quae eveniet.</p>*@
+                    </div>
+
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-pencil"></i> 最新文章</h3>
+                        <ul class="clean-list">
+                            @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
+                            @foreach (var title in ViewBag.newsposts)
+                            {
+                                <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4 footer-widget">
+                        <h3> <i class="fa fa-envelope"></i>联系我</h3>
+
+                        <p><i class="glyphicon glyphicon-envelope"></i>&nbsp;Email:13080839167@163.com</p>
+
+                        <p><i class="glyphicon glyphicon-phone"></i>&nbsp;QQ:2424002249</p>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="widewrapper copyright">
+            Copyright 2018
+        </div>
+    </footer>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <script>
+    layui.use(['laypage', 'layer'], function(){
+        var laypage = layui.laypage
+            ,layer = layui.layer;
+        var data = [
+            @{ int number = 1;}
+            @foreach (var posts in ViewBag.polist)
+            {
+                if(number == 1) {
+                @:'<div class="col-md-12 col-sm-12" style="margin-bottom: -20px;"><article class="blog-teaser"><br><span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span><span class="meta" style="font-size: 10px;">@posts.CreateDate</span><hr><div class="body" id="search"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Outline</a></div></article></div>'
+                }
+                else
+                {
+                @:,'<div class="col-md-12 col-sm-12" style="margin-bottom: -20px;"><article class="blog-teaser"><br><span style="font-size: 20px; margin-left: 20px;"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Title</a></span><span class="meta" style="font-size: 10px;">@posts.CreateDate</span><hr><div class="body" id="search"><a href="/Home/Single/@posts.PostsId" id="search">@posts.Outline</a></div></article></div>'
+
+                }
+                number++;
+            }
+
+        ];
+
+        //调用分页
+        laypage.render({
+            elem: 'demo'
+            ,count: data.length
+            ,jump: function(obj){
+                //模拟渲染
+                document.getElementById("row").innerHTML = function(){
+                    var arr = []
+                        ,thisData = data.concat().splice(obj.curr*obj.limit - obj.limit, obj.limit);
+                    layui.each(thisData, function(index, item){
+                        arr.push(item );
+                    });
+                    return arr.join('');
+                }();
+            }
+        });
+
+    });
+    </script>
+</body>
+</html>

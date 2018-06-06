@@ -115,29 +115,33 @@ namespace Blog.Controllers
             context.SaveChanges();
             return Redirect("Success");
         }
-
-        //public ActionResult Users(string t)
-        //{
-        //    var tagList = from ta in context.Tags
-        //        select ta;
-        //    var clickList = from c in context.Postses
-        //        orderby c.Click descending
-        //        select c;
-        //    var bydatePosts = from b in context.Postses
-        //        orderby b.CreateDate descending
-        //        select b;
-        //    var userlist = (from user in context.Users
-        //        where user.UserName == t
-        //        select user).SingleOrDefault();
-        //    var postList = from p in context.Postses
-        //        where p.UserId == userlist.UserId
-        //        select p;
-        //    ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
-        //    ViewBag.sellist = clickList.Take(6).ToList();
-        //    ViewBag.newsposts = bydatePosts.Take(6).ToList();
-        //    ViewBag.polist = postList.ToList();
-        //    return View("Older");
-        //}
+        [HttpGet]
+        public ActionResult Users(string t)
+        {
+            var tagList = from ta in context.Tags
+                          select ta;
+            var clickList = from c in context.Postses
+                            orderby c.Click descending
+                            select c;
+            var bydatePosts = from b in context.Postses
+                              orderby b.CreateDate descending
+                              select b;
+            var userlist = (from user in context.Users
+                            where user.UserName == t
+                            select user).SingleOrDefault();
+            if (userlist == null)
+            {
+                return Content("无此用户");
+            }
+            var postList = from p in context.Postses
+                           where p.UserId == userlist.UserId
+                           select p;
+            ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
+            ViewBag.sellist = clickList.Take(6).ToList();
+            ViewBag.newsposts = bydatePosts.Take(6).ToList();
+            ViewBag.polist = postList.ToList();
+            return View();
+        }
 
         [HttpPost]
         public ActionResult Single(Reply n, int id)
@@ -167,7 +171,7 @@ namespace Blog.Controllers
             return Redirect("/Home/Single/" + id);
         }
 
-        public ActionResult Older(string t,string username)
+        public ActionResult Older(string t)
         {
             var postList = from p in context.Postses
                            select p;
@@ -190,15 +194,6 @@ namespace Blog.Controllers
                 postList = from p in context.Postses
                            from ta in p.Tags
                            where ta.Name == t
-                           select p;
-            }
-            else if(username!=null)
-            {
-                var userlist = (from user in context.Users
-                                where user.UserName == username
-                                select user).SingleOrDefault();
-                postList = from p in context.Postses
-                           where p.UserId == userlist.UserId
                            select p;
             }
             ViewBag.tag = tagList.Select(p => p.Name).Distinct().Take(20).ToList();
