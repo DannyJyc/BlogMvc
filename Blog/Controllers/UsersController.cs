@@ -30,7 +30,7 @@ namespace Blog.Controllers
             users.Email = Email;
             users.UserName = UserName;
             users.PassWord = GetValue.GetStrMd5(Pwd);
-            users.GroupId = 0;
+            users.GroupId = 2;
             //users.Power = 0;
             context.Users.Add(users);
             context.SaveChanges();
@@ -115,7 +115,7 @@ namespace Blog.Controllers
             group.GroupName = n.GroupName;
             context.Groups.Add(group);
             context.SaveChanges();
-            return RedirectToAction("GroupList");
+            return Redirect("/Users/GroupList");
         }
 
         public ActionResult GroupList()

@@ -122,7 +122,6 @@ namespace Blog.Controllers
                     context.SaveChanges();
                 }
             }
-
             return Content("suc");
         }
 
@@ -143,7 +142,7 @@ namespace Blog.Controllers
             tag.Name = n.Name;
             context.Tags.Add(tag);
             context.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect("/Backstage/Index");
         }
 
         [HttpGet]
@@ -154,9 +153,22 @@ namespace Blog.Controllers
             {
                 return Redirect("/Backstage/Ero");
             }
+            int userid = Convert.ToInt16(Session["UserId"]);
             var list = (from po in context.Postses
-                        where po.PostsId == id
-                        select po).First();
+                where po.PostsId == id && po.UserId == userid
+                select po).FirstOrDefault();
+            if (GetValue.PerFour(groupid))
+            {
+                list = (from po in context.Postses
+                    where po.PostsId == id
+                    select po).First();
+            }
+
+            if (list == null)
+            {
+                return Content("滚！");
+            }
+
 
             var tagList = from ta in context.Tags
                           select ta;
@@ -180,7 +192,7 @@ namespace Blog.Controllers
             posts.Click = n.Click;
             posts.CreateDate = DateTime.Now;
             context.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect("/Backstage/Index");
         }
 
         [HttpGet]
@@ -208,7 +220,7 @@ namespace Blog.Controllers
             var del = context.Postses.Where(p => p.PostsId == id).FirstOrDefault();
             context.Postses.Remove(del);
             context.SaveChanges();
-            return RedirectToAction("Index");
+            return Redirect("/Backstage/Index");
         }
 
         public ActionResult Ero()
