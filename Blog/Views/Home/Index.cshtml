@@ -147,7 +147,7 @@
                                 @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                                 @foreach (var title in ViewBag.sellist)
                                 {
-                                    <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
+                                    <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
                                 }
                             </ul>
                         </div>
@@ -190,7 +190,7 @@
                             @*jycsb什么他妈玩意儿，这里直接用LINQ只选出6条不就结了吗*@
                             @foreach (var title in ViewBag.newsposts)
                             {
-                                <li><a href="/Home/Single/@title.PostsId"><i style="margin-right: 10px;" class="glyphicon glyphicon-list-alt"></i>@title.Title</a></li>
+                                <li><a href="/Home/Single/@title.PostsId">@title.Title</a></li>
                             }
                         </ul>
                     </div>
