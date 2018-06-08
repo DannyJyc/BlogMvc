@@ -23,18 +23,20 @@
 }
 <table id="table_id" class="display">
     <thead>
-        <tr>
-            <th>Title</th>
-            <th>CreateDate</th>
-            <th>Click</th>
-            <th>Tag</th>
-            <th>Operate</th>
-        </tr>
+    <tr>
+        <th>UserName</th>
+        <th>Title</th>
+        <th>CreateDate</th>
+        <th>Click</th>
+        <th>Tag</th>
+        <th>Operate</th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var posts in Model)
         {
             <tr>
+                <td>@GetValue.UserIdName(posts.UserId)</td>
                 <td>@posts.Title</td>
                 <td>@posts.CreateDate</td>
                 <td>@posts.Click</td>
